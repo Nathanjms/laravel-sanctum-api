@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -55,6 +56,7 @@ class AuthController extends Controller
         $response = [
             'user' => $user,
             'token' => $token,
+            'expiry' => Carbon::now()->addMinutes(60 * 24 * env('TOKEN_EXPIRATION_DAYS', '28'))->unix(),
         ];
 
         return response($response, Response::HTTP_CREATED);
